@@ -55,24 +55,32 @@ print([labels[i] for i in [labels.index(s) for s in df_sankey['target']]])
 
 
 color_array = [
-    'rgba(0, 0, 0, 0.4)' if 'Non-Sustainable Sources' in s
-    else 'rgba(46, 139, 87, 0.5)' if 'Total ProductionSustainable Sources' in s
-    else 'rgba(255, 219, 88, 0.5)' if 'Sustainable SourcesSolarPower' in s
+    'rgba(0, 0, 0, 0.6)' if 'Non-Sustainable Sources' in s
+    else 'rgba(46, 139, 87, 0.6)' if 'Total ProductionSustainable Sources' in s
+    else 'rgba(255, 219, 88, 0.6)' if 'Sustainable SourcesSolarPower' in s
     else 'rgba(50, 150, 250, 0.6)'
     for s in df_sankey['source_target']
 ]
 
-fig = go.Figure(data=[go.Sankey(  
-    arrangement = "snap",  
-    node = dict(  
-        label=labels,    
-        #x=[0.4, 0.1, 0.4, 0.4, 0.3, 0.2, 0.4],  # Same x-coordinate for 'SolarPower' and 'Non-Sustainable Sources'  
-        x=[0.8, 0.2, 0.8, 0.8, 0.6, 0.4, 0.8],  # Same x-coordinate for 'SolarPower' and 'Non-Sustainable Sources'  
-        y=[0.1, 0.4, 0.2, 0.3, 0.3, 0.4, 0.4],  # 'SolarPower' (index 3) has higher y-coordinate than 'Non-Sustainable Sources' (index 6)  
-        pad=10    
-    )  
+fig = go.Figure(data=[go.Sankey(
+    arrangement = "snap",
+    
+    node = dict(
+        label=labels,
+        x=[0.8, 0.2, 0.8, 0.8, 0.6, 0.4, 0.8],
+        y=[0.1, 0.4, 0.2, 0.3, 0.3, 0.3, 0.4],
+# Index Label                       X       Y
+# 0     OffshoreWindPower         0.4     0.1
+# 1     Total Production          0.1     0.4
+# 2     OnshoreWindPower          0.4     0.2
+# 3     SolarPower                0.4     0.3
+# 4     WindPower                 0.3     0.4
+# 5     Sustainable Sources       0.2     0.4
+# 6     Non-Sustainable Sources   0.4     0.4        
+        pad=10,
+        color = 'lightgray'
+    ),
 
-,    
     link = dict(  
         source = [labels.index(s) for s in df_sankey['source']],  
         target = [labels.index(t) for t in df_sankey['target']],  
@@ -80,7 +88,6 @@ fig = go.Figure(data=[go.Sankey(
         color = color_array  
     )  
 )])  
-
 
 fig.update_layout(title_text=title, font_size=14)
 fig.show()
